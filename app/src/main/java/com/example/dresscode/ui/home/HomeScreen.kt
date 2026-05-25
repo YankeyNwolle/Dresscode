@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,14 +18,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.dresscode.R
 import com.example.dresscode.ui.components.PrimaryButton
 import com.example.dresscode.ui.components.SecondaryButton
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val image = painterResource(R.drawable.vetement);
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -35,14 +39,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             contentDescription = "Image de vêtement",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
-            // opacity
-            //alpha = 0.5F
         )
 
         // aligner les textes de façon vertical
         Column(
             modifier = Modifier
                 .align(Alignment.TopCenter)
+                .verticalScroll(rememberScrollState()) // permet un scroll vertical
                 .padding(top = 40.dp),
 
             horizontalAlignment = Alignment.CenterHorizontally
@@ -60,10 +63,11 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 text = "Votre garde-robe intelligente réinventée avec style.",
                 color = Color.White,
                 fontSize = 20.sp,
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier
                     .padding(top = 12.dp)
-                    .padding(start = 60.dp)
+                    .padding(horizontal = 30.dp) // ajoute une marge égale à gauche et à droite
             )
 
             Text(
@@ -83,14 +87,28 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
             PrimaryButton(
                 text = "S'inscrire",
-                onClick = { }
+                onClick = { navController.navigate("register")}
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
             SecondaryButton(
                 text = "Se connecter",
-                onClick = { }
+                onClick = {
+                    navController.navigate("login")}
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Text(
+                text = "En continuant, vous acceptez nos Conditions d'utilisation.",
+                color = Color.White,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .padding(horizontal = 30.dp)
             )
 
         }
