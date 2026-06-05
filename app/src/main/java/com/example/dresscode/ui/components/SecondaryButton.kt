@@ -17,24 +17,26 @@ import com.example.dresscode.ui.theme.Transparent30
 @Composable
 fun SecondaryButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     Button(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(65.dp),
+            .height(55.dp),
         shape = RoundedCornerShape(50.dp), // permet d'arrondir les bords
-        border = BorderStroke(1.dp, Color.White),
-        // Ajout d'une couleur transparent en background du bouton
-        colors = ButtonDefaults.buttonColors(containerColor = Transparent30)
+        // Changement pour une meilleure visibilité (Noir sur Blanc)
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Black,
+            contentColor = Color.White
+        )
     ) {
 
         Text(
             text = text,
-            color = Color.White,
-            fontSize = 25.sp
+            fontSize = 23.sp
         )
     }
 }

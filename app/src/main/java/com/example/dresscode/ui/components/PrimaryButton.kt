@@ -13,20 +13,21 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PrimaryButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     Button(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(65.dp),
+            .height(55.dp),
         shape = RoundedCornerShape(50.dp) // permet d'arrondir les bords
     ) {
 
         Text(
             text = text,
-            fontSize = 25.sp
+            fontSize = 23.sp
         )
     }
 }
