@@ -1,6 +1,8 @@
 package com.example.dresscode.ui.register
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -32,14 +34,16 @@ fun RegisterScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    val image = painterResource(R.drawable.vetement)
+    //val image = painterResource(R.drawable.vetement)
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize()
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
 
         // Image en arrière-plan
+        /*
         Image(
             painter = image,
             contentDescription = "Image de vêtement",
@@ -47,6 +51,8 @@ fun RegisterScreen(
             contentScale = ContentScale.Crop,
             alpha = 0.7F
         )
+        */
+
 
         // LazyColumn pour aligner les éléments verticalement
         LazyColumn(
@@ -84,7 +90,7 @@ fun RegisterScreen(
                     text = "Rejoignez la révolution de la mode intelligente.",
                     fontSize = 15.sp,
                     lineHeight = 25.sp,
-                    color = Color.DarkGray,
+                    color = Color.Black,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 30.dp)
@@ -110,7 +116,8 @@ fun RegisterScreen(
             item {
                 PrimaryButton(
                     text = "S'inscrire",
-                    onClick = { navController.navigate("home") }
+                    onClick = { navController.navigate("home") },
+                    modifier = Modifier.padding(horizontal = 24.dp)
                 )
             }
 
@@ -130,7 +137,7 @@ fun RegisterScreen(
                     Text(
                         text = "ou continuer avec",
                         fontSize = 15.sp,
-                        color = Color.DarkGray,
+                        color = Color.Black,
                         modifier = Modifier.padding(horizontal = 12.dp)
                     )
                     HorizontalDivider(
@@ -167,13 +174,23 @@ fun RegisterScreen(
             // Lien vers la connexion
             item {
                 Text(
-                    text = "Vous avez déjà un compte? Se connecter",
+                    text = "Vous avez déjà un compte?",
                     fontSize = 17.sp,
                     lineHeight = 25.sp,
-                    color = Color.DarkGray,
+                    color = Color.Black,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 30.dp)
+                )
+
+                // redirection vers la page de connexion
+                Text(
+                    text = "Se connecter",
+                    color = Color.Blue,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable {
+                        navController.navigate("login")
+                    }
                 )
             }
         }
