@@ -1,17 +1,28 @@
 package com.example.dresscode.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,90 +39,109 @@ import com.example.dresscode.ui.components.SecondaryButton
 
 @Composable
 fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-    val image = painterResource(R.drawable.vetement);
+    var visible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        visible = true
+    }
+
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
-    ){
-        // image
+    ) {
         Image(
-            painter = image,
-            contentDescription = "Image de vêtement",
+            painter = painterResource(R.drawable.vetement),
+            contentDescription = "Image de vetement",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
-        // aligner les textes de façon vertical
-        Column(
+        Box(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .verticalScroll(rememberScrollState()) // permet un scroll vertical
-                .padding(top = 40.dp),
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.46f))
+        )
 
-            horizontalAlignment = Alignment.CenterHorizontally
+        AnimatedVisibility(
+            visible = visible,
+            enter = fadeIn(animationSpec = tween(450)) +
+                slideInVertically(
+                    animationSpec = tween(450),
+                    initialOffsetY = { it / 5 }
+                )
         ) {
+            // contenu à animer
 
-            // TEXTE EN HAUT
-            Text(
-                text = "DressAi",
-                color = Color.White,
-                fontSize = 48.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = "Votre garde-robe intelligente réinventée avec style.",
-                color = Color.White,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium,
+            Column(
                 modifier = Modifier
-                    .padding(top = 12.dp)
-                    .padding(horizontal = 30.dp) // ajoute une marge égale à gauche et à droite
-            )
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp, vertical = 40.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "DressAi",
+                        color = Color.White,
+                        fontSize = 44.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-            Text(
-                text = "L'art de s'habiller, simplifier par L'IA",
-                color = Color.White,
-                fontSize = 35.sp,
-                lineHeight = 42.sp, // hauteur entre les lignes
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier
-                    .padding(top = 300.dp)
-                    .padding(start = 60.dp)
-            )
+                    Text(
+                        text = "Votre garde-robe intelligente reinventee avec style.",
+                        color = Color.White.copy(alpha = 0.9f),
+                        fontSize = 18.sp,
+                        lineHeight = 24.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(160.dp))
 
-            // boutons d'authentification
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "L'art de s'habiller, simplifie par l'IA",
+                        color = Color.White,
+                        fontSize = 28.sp,
+                        lineHeight = 34.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
 
-            PrimaryButton(
-                text = "S'inscrire",
-                onClick = { navController.navigate("register")}
-            )
+                    Spacer(modifier = Modifier.height(28.dp))
 
-            Spacer(modifier = Modifier.height(20.dp))
+                    PrimaryButton(
+                        text = "S'inscrire",
+                        onClick = { navController.navigate("register") }
+                    )
 
-            SecondaryButton(
-                text = "Se connecter",
-                onClick = {
-                    navController.navigate("login")}
-            )
+                    Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(30.dp))
+                    SecondaryButton(
+                        text = "Se connecter",
+                        onClick = { navController.navigate("login") }
+                    )
 
-            Text(
-                text = "En continuant, vous acceptez nos Conditions d'utilisation.",
-                color = Color.White,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .padding(horizontal = 30.dp)
-            )
-
+                    Text(
+                        text = "En continuant, vous acceptez nos Conditions d'utilisation.",
+                        color = Color.White.copy(alpha = 0.82f),
+                        fontSize = 13.sp,
+                        lineHeight = 18.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 20.dp, start = 12.dp, end = 12.dp)
+                    )
+                }
+            }
         }
     }
 }
-
