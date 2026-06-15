@@ -11,11 +11,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,6 +53,7 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
             contentScale = ContentScale.Crop
         )
 
+        // Fond sombre simple
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,16 +68,15 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                     initialOffsetY = { it / 5 }
                 )
         ) {
-            // contenu à animer
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 40.dp),
+                    .padding(horizontal = 24.dp, vertical = 40.dp)
+                ,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
+                // App name & tagline (original)
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -91,7 +88,7 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                     )
 
                     Text(
-                        text = "Votre garde-robe intelligente reinventee avec style.",
+                        text = "Votre garde-robe intelligente réinventée avec style.",
                         color = Color.White.copy(alpha = 0.9f),
                         fontSize = 18.sp,
                         lineHeight = 24.sp,
@@ -103,44 +100,30 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
 
                 Spacer(modifier = Modifier.height(160.dp))
 
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "L'art de s'habiller, simplifie par l'IA",
-                        color = Color.White,
-                        fontSize = 28.sp,
-                        lineHeight = 34.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    )
-
-                    Spacer(modifier = Modifier.height(28.dp))
-
+                // supposition des boutons
+                Column {
                     PrimaryButton(
                         text = "S'inscrire",
                         onClick = { navController.navigate("register") }
                     )
-
                     Spacer(modifier = Modifier.height(12.dp))
-
                     SecondaryButton(
                         text = "Se connecter",
                         onClick = { navController.navigate("login") }
                     )
-
-                    Text(
-                        text = "En continuant, vous acceptez nos Conditions d'utilisation.",
-                        color = Color.White.copy(alpha = 0.82f),
-                        fontSize = 13.sp,
-                        lineHeight = 18.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 20.dp, start = 12.dp, end = 12.dp)
-                    )
                 }
+
+                // text legal
+                Text(
+                    text = "En continuant, vous acceptez nos Conditions d'utilisation.",
+                    color = Color.White.copy(alpha = 0.82f),
+                    fontSize = 13.sp,
+                    lineHeight = 18.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier
+                        .padding(top = 20.dp, start = 12.dp, end = 12.dp)
+                )
             }
         }
     }
