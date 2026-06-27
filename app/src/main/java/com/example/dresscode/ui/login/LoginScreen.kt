@@ -1,5 +1,6 @@
 package com.example.dresscode.ui.login
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -34,9 +35,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.credentials.CredentialManager
@@ -74,9 +78,10 @@ fun LoginScreen(
         visible = true
     }
 
+    // redirection vers la page configuration après authentification de l'utilisateur
     LaunchedEffect(authState) {
         if (authState is AuthState.Authenticated) {
-            navController.navigate("home") {
+            navController.navigate("configuration1") {
                 popUpTo("login") { inclusive = true }
             }
         }
@@ -103,9 +108,15 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "DressAi",
-                    color = Color.Black,
-                    fontSize = 38.sp,
+                    text = buildAnnotatedString {
+                        withStyle(SpanStyle(color = Color.Black)) {
+                            append("Dress")
+                        }
+                        withStyle(SpanStyle(color = Color(0xFFA3E4D7))) {
+                            append("Ai")
+                        }
+                    },
+                    fontSize = 48.sp,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -219,7 +230,9 @@ fun LoginScreen(
                         icon = painterResource(id = R.drawable.google_icon),
                         modifier = Modifier.weight(1f),
                         onClick = {
+                            Log.d("AuthDebug", "Bouton Google cliqué (Login) !")
                             scope.launch {
+                                Log.d("AuthDebug", "Coroutine lancée (Login), Client ID: $webClientId")
                                 val googleIdOption = GetGoogleIdOption.Builder()
                                     .setFilterByAuthorizedAccounts(false)
                                     .setServerClientId(webClientId)
@@ -230,17 +243,19 @@ fun LoginScreen(
                                     .build()
 
                                 try {
+                                    Log.d("AuthDebug", "Lancement du sélecteur de compte Google (Login)...")
                                     val result = credentialManager.getCredential(
                                         context = context,
                                         request = request
                                     )
+                                    Log.d("AuthDebug", "Credential reçu avec succès (Login)")
                                     val credential = result.credential
                                     if (credential is GoogleIdTokenCredential) {
                                         val firebaseCredential = GoogleAuthProvider.getCredential(credential.idToken, null)
                                         authViewModel.signInWithGoogle(firebaseCredential)
                                     }
                                 } catch (e: Exception) {
-                                    // Gérer l'erreur
+                                    Log.e("AuthDebug", "Erreur Google Sign-In (Login) : ${e.message}", e)
                                 }
                             }
                         }
